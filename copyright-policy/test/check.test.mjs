@@ -58,3 +58,17 @@ test("rejects removal of inherited legal notices", () => {
 
   assert.throws(() => run({ base: "HEAD^", cwd: root, mode: "check" }), /removed an inherited legal notice/);
 });
+
+test("does not add a blank line at the end of an empty source file", () => {
+  const root = repository();
+  writeFileSync(join(root, "empty.py"), "");
+  git(root, "add", ".");
+  git(root, "commit", "-m", "add empty module");
+
+  run({ base: "HEAD^", cwd: root, mode: "write" });
+
+  assert.equal(
+    readFileSync(join(root, "empty.py"), "utf8"),
+    "# Copyright (c) 2026-present Ngo Quoc Huy\n# SPDX-License-Identifier: MIT\n"
+  );
+});
