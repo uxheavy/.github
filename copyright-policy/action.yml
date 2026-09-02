@@ -1,0 +1,16 @@
+name: UXHeavy copyright policy
+description: Enforce contribution headers while preserving inherited legal notices
+inputs:
+  base:
+    description: Git reference used as the comparison base
+    required: true
+  config:
+    description: Repository-relative policy file
+    required: false
+    default: .github/uxheavy-copyright.json
+runs:
+  using: composite
+  steps:
+    - name: Check contribution attribution
+      shell: bash
+      run: node "$GITHUB_ACTION_PATH/check.mjs" --check --changed-from "${{ inputs.base }}" --config "${{ inputs.config }}"
