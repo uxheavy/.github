@@ -40,7 +40,7 @@ jobs:
           fetch-depth: 0
 
       - name: Apply UXHeavy policy
-        uses: uxheavy/.github/copyright-policy@4c3586c1a410d1d859d529f60a9ad4c24a46e7ba
+        uses: uxheavy/.github/copyright-policy@cf472ea5c430f5a2d082c5877b203213df2d77e1
         with:
           base: ${{ inputs.base || format('origin/{0}', github.base_ref || github.event.repository.default_branch) }}
           config: ${{ inputs.config }}

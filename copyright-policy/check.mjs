@@ -72,6 +72,7 @@ function headerFor(path, policy) {
 export function addContributionHeader(source, path, policy) {
   if (hasContributionHeader(source, policy)) return source;
   const header = headerFor(path, policy);
+  if (source.length === 0) return `${header.trimEnd()}\n`;
   if (!source.startsWith("#!")) return header + source;
   const newline = source.indexOf("\n");
   if (newline === -1) return `${source}\n${header}`;
