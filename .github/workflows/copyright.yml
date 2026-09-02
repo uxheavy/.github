@@ -1,0 +1,46 @@
+name: UXHeavy copyright policy
+
+on:
+  workflow_call:
+    inputs:
+      base:
+        description: Optional comparison base; defaults to the pull request base
+        required: false
+        type: string
+        default: ""
+      config:
+        description: Repository-relative copyright policy
+        required: false
+        type: string
+        default: .github/uxheavy-copyright.json
+  workflow_dispatch:
+    inputs:
+      base:
+        description: Optional comparison base
+        required: false
+        type: string
+        default: ""
+      config:
+        description: Repository-relative copyright policy
+        required: false
+        type: string
+        default: .github/uxheavy-copyright.json
+
+permissions:
+  contents: read
+
+jobs:
+  attribution:
+    name: Copyright attribution
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout caller repository
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          fetch-depth: 0
+
+      - name: Apply UXHeavy policy
+        uses: uxheavy/.github/copyright-policy@4c3586c1a410d1d859d529f60a9ad4c24a46e7ba
+        with:
+          base: ${{ inputs.base || format('origin/{0}', github.base_ref || github.event.repository.default_branch) }}
+          config: ${{ inputs.config }}
